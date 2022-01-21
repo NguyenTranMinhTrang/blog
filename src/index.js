@@ -6,6 +6,7 @@ const port = 3000;
 const app = express();
 const route = require('./route/');
 const db = require('./config/db');
+const methodOverride = require('method-override');
 
 
 
@@ -20,6 +21,7 @@ app.use(morgan('combined'))
 app.engine('handlebars', engine());
 app.set('view engine', 'handlebars');
 app.set("views", path.join(__dirname, 'resource', 'views'));
+app.use(methodOverride('_method'));
 
 // Connect db
 
