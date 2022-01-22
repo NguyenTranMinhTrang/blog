@@ -42,6 +42,27 @@ class CoursesController {
             .then(() => res.redirect('/me/store/courses'))
             .catch(next)
     }
+
+    // DELETE /course/:id 
+    delete(req, res, next) {
+        Course.delete({ _id: req.params.id })
+            .then(() => res.redirect('back'))
+            .catch(next);
+    }
+
+    // PATCH /:id/restore 
+    restore(req, res, next) {
+        Course.restore({ _id: req.params.id })
+            .then(() => res.redirect('back'))
+            .catch(next);
+    }
+    // DELETE /course/:id/force 
+    force(req, res, next) {
+        Course.deleteOne({ _id: req.params.id })
+            .then(() => res.redirect('back'))
+            .catch(next);
+    }
+
 }
 
 module.exports = new CoursesController;

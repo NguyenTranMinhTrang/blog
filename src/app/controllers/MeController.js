@@ -14,6 +14,17 @@ class MeController {
             }
         });
     }
+    // GET me/trash/courses
+    trashCourse(req, res, next) {
+        Course.findDeleted({}, function (err, courses) {
+            if (!err) {
+                res.render('trashCourses', { courses: multipleObject(courses) })
+            }
+            else {
+                next(err);
+            }
+        });
+    }
 }
 
 module.exports = new MeController;
