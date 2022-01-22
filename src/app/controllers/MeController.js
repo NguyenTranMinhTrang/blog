@@ -1,18 +1,20 @@
 const Course = require('../modules/courses');
 const { multipleObject } = require('../../util/handleData');
+const courses = require('../modules/courses');
 
 class MeController {
 
     // GET me/store/courses
     storedCourse(req, res, next) {
-        Course.find({}, function (err, courses) {
-            if (!err) {
-                res.render('stored-courses', { courses: multipleObject(courses) })
-            }
-            else {
-                next(err);
-            }
-        });
+
+        Promise.all([Course.find({}), Course.countDocumentsDeleted()])
+            .then(([courses, deletedCourses]) => {
+                res.render('stored-courses', {
+                    deletedCourses,
+                    courses: multipleObject(courses)
+                })
+            })
+            .catch(next);
     }
     // GET me/trash/courses
     trashCourse(req, res, next) {
